@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>usbsimulator.protocol.field &mdash; USB Simulator 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            USB Simulator
+              <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">usbsimulator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">USB Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">usbsimulator.protocol.field</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for usbsimulator.protocol.field</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
+
+
+<div class="viewcode-block" id="USBField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.USBField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">USBField</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class representing an USB field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="USBField.val">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.USBField.val">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size_in_bits</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size_in_bits</span> <span class="o">=</span> <span class="n">size_in_bits</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;:</span><span class="se">\t</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Pid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">base</span> <span class="o">+</span> <span class="nb">hex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">base</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Pid">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.Pid">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pid</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Valid PID values for a USB packet, values are MSB first.</span>
+
+<span class="sd">    Please see 8.3.1 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TOKEN_OUT</span> <span class="o">=</span> <span class="mb">0b11100001</span>
+    <span class="n">TOKEN_IN</span> <span class="o">=</span> <span class="mb">0b01101001</span>
+    <span class="n">TOKEN_SOF</span> <span class="o">=</span> <span class="mb">0b10100101</span>
+    <span class="n">TOKEN_SETUP</span> <span class="o">=</span> <span class="mb">0b00101101</span>
+    <span class="n">DATA_DATA0</span> <span class="o">=</span> <span class="mb">0b11000011</span>
+    <span class="n">DATA_DATA1</span> <span class="o">=</span> <span class="mb">0b01001011</span>
+    <span class="n">HANDSHAKE_ACK</span> <span class="o">=</span> <span class="mb">0b11010010</span>
+    <span class="n">HANDSHAKE_NACK</span> <span class="o">=</span> <span class="mb">0b01011010</span>
+    <span class="n">HANDSHAKE_STALL</span> <span class="o">=</span> <span class="mb">0b00011110</span>
+    <span class="n">SPECIAL_PRE</span> <span class="o">=</span> <span class="mb">0b00111100</span></div>
+
+
+
+<div class="viewcode-block" id="EndpointField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.EndpointField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EndpointField</span><span class="p">(</span><span class="n">USBField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Endpoint field, values are MSB first</span>
+
+<span class="sd">    :param endpoint: The endpoint value must be on 3 bits max</span>
+<span class="sd">    :type endpoint: int</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        my_endpoint_value = 3</span>
+<span class="sd">        f = EndpointField(my_endpoint_value)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size_in_bits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">4</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">endpoint</span></div>
+
+
+
+<div class="viewcode-block" id="PidField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PidField</span><span class="p">(</span><span class="n">USBField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pid field for a USB packet.</span>
+
+<span class="sd">    :param pid: The value of the Pid</span>
+<span class="sd">    :type pid: Pid</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        my_pid = Pid.TOKEN_SOF</span>
+<span class="sd">        f = PidField(my_pid)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">:</span> <span class="n">Pid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size_in_bits</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">Pid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">pid</span></div>
+
+
+
+<div class="viewcode-block" id="AddressField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.AddressField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AddressField</span><span class="p">(</span><span class="n">USBField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Address field, values are MSB first</span>
+
+<span class="sd">    :param address: The address value must be on 6 bits max</span>
+<span class="sd">    :type address: int</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        my_addr = 0b101101</span>
+<span class="sd">        f = AddressField(my_addr)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size_in_bits</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">address</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">7</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">address</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;:</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="FramenumberField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.FramenumberField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FramenumberField</span><span class="p">(</span><span class="n">USBField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Field containing the frame number of a USB packet.</span>
+
+<span class="sd">    :param framenumber: the number of the frame</span>
+<span class="sd">    :type framenumber: int</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        frame_nb = 0x1ea</span>
+<span class="sd">        f = FramenumberField(frame_nb)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framenumber</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">framenumber</span> <span class="o">&lt;=</span> <span class="mh">0x7ff</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size_in_bits</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">framenumber</span></div>
+
+
+
+<div class="viewcode-block" id="DataField">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.field.html#usbsimulator.protocol.field.DataField">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataField</span><span class="p">(</span><span class="n">USBField</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data field for a USB packet.</span>
+
+<span class="sd">    :param data: the data to be stored in the field, MSB first</span>
+<span class="sd">    :type data: bytes</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        my_data = b&#39;Very important data to send by USB !&#39;</span>
+<span class="sd">        f = DataField(my_data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1023</span><span class="p">,</span> \
+            <span class="s2">&quot;Bytes per data packet can&#39;t exceed 1023 bytes&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size_in_bits</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span>
+            <span class="c1"># Update size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size_in_bits</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, acmo0.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

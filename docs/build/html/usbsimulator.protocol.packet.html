@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>usbsimulator.protocol.packet module &mdash; USB Simulator 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="_static/logo.svg"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="usbsimulator.protocol.usb_request module" href="usbsimulator.protocol.usb_request.html" />
+    <link rel="prev" title="usbsimulator.protocol.field module" href="usbsimulator.protocol.field.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            USB Simulator
+              <img src="_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">usbsimulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="usbsimulator.html">usbsimulator package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="usbsimulator.protocol.html">usbsimulator.protocol package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="usbsimulator.protocol.field.html">usbsimulator.protocol.field module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">usbsimulator.protocol.packet module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usbsimulator.protocol.usb_request.html">usbsimulator.protocol.usb_request module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="usbsimulator.signal.html">usbsimulator.signal package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usbsimulator.crc.html">usbsimulator.crc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usbsimulator.util.html">usbsimulator.util module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">USB Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">usbsimulator</a></li>
+          <li class="breadcrumb-item"><a href="usbsimulator.html">usbsimulator package</a></li>
+          <li class="breadcrumb-item"><a href="usbsimulator.protocol.html">usbsimulator.protocol package</a></li>
+      <li class="breadcrumb-item active">usbsimulator.protocol.packet module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usbsimulator.protocol.packet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-usbsimulator.protocol.packet">
+<span id="usbsimulator-protocol-packet-module"></span><h1>usbsimulator.protocol.packet module<a class="headerlink" href="#module-usbsimulator.protocol.packet" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.USBPacket">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">usbsimulator.protocol.packet.</span></span><span class="sig-name descname"><span class="pre">USBPacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><span class="pre">PidField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.USBField" title="usbsimulator.protocol.field.USBField"><span class="pre">USBField</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crc_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#USBPacket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.USBPacket" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for USB packet.</p>
+<p>Implements the default function to get the bits of a USB packet and
+auto-update the CRC of the packet when an attribute is set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pid</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><em>PidField</em></a>) – PID of the packet</p></li>
+<li><p><strong>fields</strong> (<em>list</em><em>[</em><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.USBField" title="usbsimulator.protocol.field.USBField"><em>USBField</em></a><em>] or </em><em>None</em>) – Additional fields of the usb packet</p></li>
+<li><p><strong>crc_function</strong> (<em>callable</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>] or </em><em>None</em>) – the function to compute the crc of the packet</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.USBPacket.get_bits">
+<span class="sig-name descname"><span class="pre">get_bits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">with_crc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_pid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#USBPacket.get_bits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.USBPacket.get_bits" title="Link to this definition"></a></dt>
+<dd><p>Get the bits of the packet in the right order for transmission</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>with_crc</strong> (<em>bool</em>) – Does the function has to return the crc</p></li>
+<li><p><strong>with_pid</strong> (<em>bool</em>) – Does the function has to return the pid alose</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All the bits of the packet, LSB first</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.USBPacket.length_in_bits">
+<span class="sig-name descname"><span class="pre">length_in_bits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#USBPacket.length_in_bits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.USBPacket.length_in_bits" title="Link to this definition"></a></dt>
+<dd><p>Return the length in bits of the packet</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Length in bits of the packet</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.TokenPacket">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">usbsimulator.protocol.packet.</span></span><span class="sig-name descname"><span class="pre">TokenPacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><span class="pre">PidField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.AddressField" title="usbsimulator.protocol.field.AddressField"><span class="pre">AddressField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.EndpointField" title="usbsimulator.protocol.field.EndpointField"><span class="pre">EndpointField</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#TokenPacket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.TokenPacket" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#usbsimulator.protocol.packet.USBPacket" title="usbsimulator.protocol.packet.USBPacket"><code class="xref py py-class docutils literal notranslate"><span class="pre">USBPacket</span></code></a></p>
+<p>Class representing a USB Packet of type <em>token</em>.
+Please see 8.4.1 from <a class="reference external" href="http://esd.cs.ucr.edu/webres/usb11.pdf">USB1.1 specification</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pid</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><em>PidField</em></a>) – the PID of the packet</p></li>
+<li><p><strong>addr</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.AddressField" title="usbsimulator.protocol.field.AddressField"><em>AddressField</em></a>) – the address in the token packet</p></li>
+<li><p><strong>endpoint</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.EndpointField" title="usbsimulator.protocol.field.EndpointField"><em>EndpointField</em></a>) – the endpoint of the token packet</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example (create a <em>TOKEN_IN</em> USB packet):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.packet</span><span class="w"> </span><span class="kn">import</span> <span class="n">TokenPacket</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pid</span><span class="p">,</span> <span class="n">PidField</span><span class="p">,</span> <span class="n">AddressField</span><span class="p">,</span> <span class="n">EndpointField</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">pid</span> <span class="o">=</span> <span class="n">PidField</span><span class="p">(</span><span class="n">Pid</span><span class="o">.</span><span class="n">TOKEN_IN</span><span class="p">)</span>
+<span class="linenos"> 5</span><span class="n">addr</span> <span class="o">=</span> <span class="n">AddressField</span><span class="p">(</span><span class="mh">0x1ae</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">ep</span> <span class="o">=</span> <span class="n">EndpointField</span><span class="p">(</span><span class="mb">0b101</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="n">tin_packet</span> <span class="o">=</span> <span class="n">TokenPacket</span><span class="p">(</span>
+<span class="linenos"> 9</span>    <span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="n">address</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span>
+<span class="linenos">11</span>    <span class="n">endpoint</span><span class="o">=</span><span class="n">ep</span>
+<span class="linenos">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.StartOfFramePacket">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">usbsimulator.protocol.packet.</span></span><span class="sig-name descname"><span class="pre">StartOfFramePacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framenumber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.FramenumberField" title="usbsimulator.protocol.field.FramenumberField"><span class="pre">FramenumberField</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#StartOfFramePacket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.StartOfFramePacket" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#usbsimulator.protocol.packet.USBPacket" title="usbsimulator.protocol.packet.USBPacket"><code class="xref py py-class docutils literal notranslate"><span class="pre">USBPacket</span></code></a></p>
+<p>Class representing a USB Packet of type StartOfFrame.
+Please see 8.4.2 from <a class="reference external" href="http://esd.cs.ucr.edu/webres/usb11.pdf">USB1.1 specification</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>framenumber</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.FramenumberField" title="usbsimulator.protocol.field.FramenumberField"><em>FramenumberField</em></a>) – The frame number of the packet</p>
+</dd>
+</dl>
+<p>Example (create a <em>FrameNumber</em> USB packet):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.packet</span><span class="w"> </span><span class="kn">import</span> <span class="n">StartOfFramePacket</span>
+<span class="linenos">2</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrameNumberField</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="n">frame_nb</span> <span class="o">=</span> <span class="n">FramenumberField</span><span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="linenos">5</span>
+<span class="linenos">6</span><span class="n">p</span> <span class="o">=</span> <span class="n">StartOfFramePacket</span><span class="p">(</span><span class="n">frame_nb</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.DataPacket">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">usbsimulator.protocol.packet.</span></span><span class="sig-name descname"><span class="pre">DataPacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><span class="pre">PidField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.DataField" title="usbsimulator.protocol.field.DataField"><span class="pre">DataField</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#DataPacket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.DataPacket" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#usbsimulator.protocol.packet.USBPacket" title="usbsimulator.protocol.packet.USBPacket"><code class="xref py py-class docutils literal notranslate"><span class="pre">USBPacket</span></code></a></p>
+<p>Class representing a USB Packet of type Data.
+Please see 8.4.1 from <a class="reference external" href="http://esd.cs.ucr.edu/webres/usb11.pdf">USB1.1 specification</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pid</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><em>PidField</em></a>) – The pid of the datapacket</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.DataField" title="usbsimulator.protocol.field.DataField"><em>DataField</em></a>) – The data in the datapacket</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example (create a DATA0 packet):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.packet</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPacket</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pid</span><span class="p">,</span> <span class="n">PidField</span><span class="p">,</span> <span class="n">DataField</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">pid</span> <span class="o">=</span> <span class="n">PidField</span><span class="p">(</span><span class="n">Pid</span><span class="o">.</span><span class="n">DATA_DATA0</span><span class="p">)</span>
+<span class="linenos"> 5</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="sa">b</span><span class="s1">&#39;A very important data that I want to send on the USB bus&#39;</span>
+<span class="linenos"> 7</span><span class="p">)</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">data_packet</span> <span class="o">=</span> <span class="n">DataPacket</span><span class="p">(</span>
+<span class="linenos">10</span>    <span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span>
+<span class="linenos">11</span>    <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+<span class="linenos">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="usbsimulator.protocol.packet.HandshakePacket">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">usbsimulator.protocol.packet.</span></span><span class="sig-name descname"><span class="pre">HandshakePacket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><span class="pre">PidField</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/usbsimulator/protocol/packet.html#HandshakePacket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#usbsimulator.protocol.packet.HandshakePacket" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#usbsimulator.protocol.packet.USBPacket" title="usbsimulator.protocol.packet.USBPacket"><code class="xref py py-class docutils literal notranslate"><span class="pre">USBPacket</span></code></a></p>
+<p>Class representing a handshake USB packet.
+Please see 8.4.4 from <a class="reference external" href="http://esd.cs.ucr.edu/webres/usb11.pdf">USB1.1 specification</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pid</strong> (<a class="reference internal" href="usbsimulator.protocol.field.html#usbsimulator.protocol.field.PidField" title="usbsimulator.protocol.field.PidField"><em>PidField</em></a>) – The pid of the handshake packet. Must be Pid.HANDSHAKE_ACK, Pid.HANDSHAKE_ACK
+or Pid.HANDSHAKE_STALL.</p>
+</dd>
+</dl>
+<p>Example (create ACK and NACK packets):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.packet</span><span class="w"> </span><span class="kn">import</span> <span class="n">HandshakePacket</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">usbsimulator.protocol.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pid</span><span class="p">,</span> <span class="n">PidField</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># In case of an ACK</span>
+<span class="linenos"> 5</span><span class="n">pid</span> <span class="o">=</span> <span class="n">PidField</span><span class="p">(</span><span class="n">Pid</span><span class="o">.</span><span class="n">HANDSHAKE_ACK</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">ack_packet</span> <span class="o">=</span> <span class="n">HandshakePacket</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># In case of a NACK</span>
+<span class="linenos"> 9</span><span class="n">pid</span> <span class="o">=</span> <span class="n">PidField</span><span class="p">(</span><span class="n">Pid</span><span class="o">.</span><span class="n">HANDSHAKE_NACK</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">nack_packet</span> <span class="o">=</span> <span class="n">HandshakePacket</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usbsimulator.protocol.field.html" class="btn btn-neutral float-left" title="usbsimulator.protocol.field module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usbsimulator.protocol.usb_request.html" class="btn btn-neutral float-right" title="usbsimulator.protocol.usb_request module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, acmo0.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

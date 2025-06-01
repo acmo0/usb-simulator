@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>usbsimulator.protocol.usb_request &mdash; USB Simulator 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            USB Simulator
+              <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">usbsimulator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">USB Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">usbsimulator.protocol.usb_request</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for usbsimulator.protocol.usb_request</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.field</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataField</span>
+
+
+<div class="viewcode-block" id="DeviceRequest">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.DeviceRequest">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeviceRequest</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class representing a Device Request as defined in USB1.1 spec.</span>
+<span class="sd">    Please consider reading 9.3 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param bmRequestType: the code of the bmRequestType</span>
+<span class="sd">    :type bmRequestType: bytes</span>
+<span class="sd">    :param bRequest: the code of the bRquest</span>
+<span class="sd">    :type bRequest: bytes</span>
+<span class="sd">    :param wValue: the code of the wValue</span>
+<span class="sd">    :type wValue: bytes</span>
+<span class="sd">    :param wIndex: the value of the wIndex</span>
+<span class="sd">    :type wIndex: bytes</span>
+<span class="sd">    :param wLength: the value of wLength</span>
+<span class="sd">    :type wLength: bytes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bmRequestType</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">bRequest</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">wValue</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">wIndex</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">wLength</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bmRequestType</span> <span class="o">=</span> <span class="n">bmRequestType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bRequest</span> <span class="o">=</span> <span class="n">bRequest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wValue</span> <span class="o">=</span> <span class="n">wValue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wIndex</span> <span class="o">=</span> <span class="n">wIndex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wLength</span> <span class="o">=</span> <span class="n">wLength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="DeviceRequest.get_bytes">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.DeviceRequest.get_bytes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the DataField object using the fields of this object.</span>
+
+<span class="sd">        :returns: the DataField object from the DeviceRequests</span>
+<span class="sd">        :rtype: DataField</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bmRequestType</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">bRequest</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">wValue</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">wIndex</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">wLength</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">return</span> <span class="n">DataField</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SET_ADDRESS">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.SET_ADDRESS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SET_ADDRESS</span><span class="p">(</span><span class="n">DeviceRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SET_ADDRESS device request.</span>
+<span class="sd">    Please consider reading 9.4.6</span>
+<span class="sd">    from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param device_address: the device address</span>
+<span class="sd">    :type wValue: int</span>
+
+<span class="sd">    Example (create a SET_ADDRESS device request):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import DataPacket</span>
+<span class="sd">        from usbsimulator.protocol.field import Pid, PidField</span>
+<span class="sd">        from usbsimulator.protocol.device_request import SET_ADDRESS</span>
+
+<span class="sd">        device_address = 31</span>
+
+<span class="sd">        pid = PidField(Pid.DATA_DATA0)</span>
+<span class="sd">        device_request = SET_ADDRESS(device_address)</span>
+
+<span class="sd">        set_add_device_rq = DataPacket(</span>
+<span class="sd">            pid=pid</span>
+<span class="sd">            data=device_request.get_bytes()</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_address</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">bmRequestType</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">bRequest</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x05</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">wValue</span><span class="o">=</span><span class="n">device_address</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(),</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SET_DESCRIPTOR">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.SET_DESCRIPTOR">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SET_DESCRIPTOR</span><span class="p">(</span><span class="n">DeviceRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SET_DESCRIPTOR request</span>
+
+<span class="sd">    Please consider reading 9.4.8</span>
+<span class="sd">    from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">descriptor_type</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">language_id</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor_length</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor</span><span class="p">:</span> <span class="nb">bytes</span>
+    <span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">bmRequestType</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">bRequest</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x07</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">wValue</span><span class="o">=</span><span class="n">descriptor_type</span><span class="p">,</span>
+            <span class="n">wIndex</span><span class="o">=</span><span class="n">language_id</span><span class="p">,</span>
+            <span class="n">wLength</span><span class="o">=</span><span class="n">descriptor_length</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">descriptor</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GET_DESCRIPTOR">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.GET_DESCRIPTOR">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GET_DESCRIPTOR</span><span class="p">(</span><span class="n">DeviceRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GET_DESCRIPTOR request</span>
+
+<span class="sd">    Please consider reading 9.4.3</span>
+<span class="sd">    from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param descriptor_type: the type of the descriptor (p.e DEVICE descriptor)</span>
+<span class="sd">    :type wValue: bytes</span>
+<span class="sd">    :param language_id: the language ID for the descriptor</span>
+<span class="sd">        (usefull for string descriptors only)</span>
+<span class="sd">    :type language_id: bytes</span>
+<span class="sd">    :param descriptor_length: the length of the descriptor</span>
+<span class="sd">    :type descriptor_length: bytes</span>
+
+<span class="sd">    Example (create a GET_DESCRIPTOR device request for device descriptor):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import DataPacket</span>
+<span class="sd">        from usbsimulator.protocol.field import Pid, PidField</span>
+<span class="sd">        from usbsimulator.protocol.device_request import GET_DESCRIPTOR</span>
+
+<span class="sd">        device_address = 31</span>
+
+<span class="sd">        pid = PidField(Pid.DATA_DATA0)</span>
+<span class="sd">        # GET_DESCRIPTOR for device descriptor </span>
+<span class="sd">        device_request = GET_DESCRIPTOR(</span>
+<span class="sd">            descriptor_type=b&#39;\\x01&#39;,</span>
+<span class="sd">            language_id=b&#39;\\x00\\x00&#39;,</span>
+<span class="sd">            descriptor_length=b&#39;\\x12\\x00&#39;,</span>
+<span class="sd">            descriptor=b&#39;&#39;</span>
+<span class="sd">        )</span>
+
+<span class="sd">        get_desc_device_rq = DataPacket(</span>
+<span class="sd">            pid=pid</span>
+<span class="sd">            data=device_request.get_bytes()</span>
+<span class="sd">        )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">descriptor_type</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">language_id</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor_length</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">bmRequestType</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x80</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">bRequest</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">wValue</span><span class="o">=</span><span class="n">descriptor_type</span><span class="p">,</span>
+            <span class="n">wIndex</span><span class="o">=</span><span class="n">language_id</span><span class="p">,</span>
+            <span class="n">wLength</span><span class="o">=</span><span class="n">descriptor_length</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">descriptor</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GET_DESCRIPTOR_RESPONSE">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.usb_request.html#usbsimulator.protocol.usb_request.GET_DESCRIPTOR_RESPONSE">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GET_DESCRIPTOR_RESPONSE</span><span class="p">(</span><span class="n">DeviceRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GET_DESCRIPTOR response</span>
+
+<span class="sd">    Please consider reading 9.6</span>
+<span class="sd">    from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param descriptor_type: the type of the descriptor</span>
+<span class="sd">    :type descriptor_type: bytes</span>
+<span class="sd">    :param language_id: the ID of the language</span>
+<span class="sd">    :type language_id: bytes</span>
+<span class="sd">    :descript_length: the length of the descriptor</span>
+<span class="sd">    :type descriptor_length: bytes</span>
+<span class="sd">    :param descriptor: bytes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">descriptor_type</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">language_id</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor_length</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">descriptor</span><span class="p">:</span> <span class="nb">bytes</span>
+    <span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">bmRequestType</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x80</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">bRequest</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">wValue</span><span class="o">=</span><span class="n">descriptor_type</span><span class="p">,</span>
+            <span class="n">wIndex</span><span class="o">=</span><span class="n">language_id</span><span class="p">,</span>
+            <span class="n">wLength</span><span class="o">=</span><span class="n">descriptor_length</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">descriptor</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, acmo0.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

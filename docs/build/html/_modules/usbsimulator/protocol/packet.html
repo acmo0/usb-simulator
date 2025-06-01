@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>usbsimulator.protocol.packet &mdash; USB Simulator 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            USB Simulator
+              <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">usbsimulator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">USB Simulator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">usbsimulator.protocol.packet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for usbsimulator.protocol.packet</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
+
+<span class="c1"># module imports from python</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.field</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">bit_mirror</span><span class="p">,</span> <span class="n">to_bits</span><span class="p">,</span> <span class="n">bit_stuff</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..crc</span><span class="w"> </span><span class="kn">import</span> <span class="n">usb_crc5</span><span class="p">,</span> <span class="n">usb_crc16</span>
+
+
+<div class="viewcode-block" id="USBPacket">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.USBPacket">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">USBPacket</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class for USB packet.</span>
+
+<span class="sd">    Implements the default function to get the bits of a USB packet and</span>
+<span class="sd">    auto-update the CRC of the packet when an attribute is set.</span>
+
+<span class="sd">    :param pid: PID of the packet</span>
+<span class="sd">    :type pid: PidField</span>
+<span class="sd">    :param fields: Additional fields of the usb packet</span>
+<span class="sd">    :type fields: list[USBField] or None</span>
+<span class="sd">    :param crc_function: the function to compute the crc of the packet</span>
+<span class="sd">    :type crc_function: callable[list[int], list[int]] or None        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pid</span><span class="p">:</span> <span class="n">PidField</span><span class="p">,</span>
+        <span class="n">fields</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">USBField</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">crc_function</span><span class="p">:</span> <span class="nb">callable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">assert</span> <span class="n">pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">pid</span>
+        <span class="k">if</span> <span class="n">fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crc_function</span> <span class="o">=</span> <span class="n">crc_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crc_function</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_bits</span><span class="p">(</span><span class="n">with_crc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_pid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">crc_function</span> <span class="k">else</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="USBPacket.get_bits">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.USBPacket.get_bits">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_crc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_pid</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the bits of the packet in the right order for transmission</span>
+
+<span class="sd">        :param with_crc: Does the function has to return the crc</span>
+<span class="sd">        :type with_crc: bool</span>
+<span class="sd">        :param with_pid: Does the function has to return the pid alose</span>
+<span class="sd">        :type with_pid: bool</span>
+<span class="sd">        :return: All the bits of the packet, LSB first</span>
+<span class="sd">        :rtype: list[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">output_bits</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length_in_bits</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">size_in_bits</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">with_pid</span><span class="p">:</span>
+            <span class="n">output_bits</span> <span class="o">=</span> <span class="n">to_bits</span><span class="p">(</span>
+                <span class="n">bit_mirror</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">(),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">size_in_bits</span>
+                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">size_in_bits</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="n">output_bits</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">with_pid</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">size_in_bits</span>
+
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">field_val</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">val</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field_val</span><span class="p">,</span> <span class="n">IntEnum</span><span class="p">):</span>
+                <span class="n">field_val</span> <span class="o">=</span> <span class="n">field_val</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+            <span class="n">field_bits</span> <span class="o">=</span> <span class="n">to_bits</span><span class="p">(</span>
+                <span class="n">bit_mirror</span><span class="p">(</span>
+                    <span class="n">field_val</span><span class="p">,</span>
+                    <span class="n">field</span><span class="o">.</span><span class="n">size_in_bits</span><span class="p">),</span>
+                <span class="n">field</span><span class="o">.</span><span class="n">size_in_bits</span>
+            <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">field_bits</span><span class="p">:</span>
+                <span class="n">output_bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">with_crc</span><span class="p">:</span>
+            <span class="n">output_bits</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output_bits</span></div>
+
+
+<div class="viewcode-block" id="USBPacket.length_in_bits">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.USBPacket.length_in_bits">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">length_in_bits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the length in bits of the packet</span>
+
+<span class="sd">        :return: Length in bits of the packet</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">length</span> <span class="o">+=</span> <span class="n">field</span><span class="o">.</span><span class="n">size_in_bits</span>
+
+        <span class="k">return</span> <span class="n">length</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">!=</span> <span class="s2">&quot;crc&quot;</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;crc_function&quot;</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crc_function</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_bits</span><span class="p">(</span><span class="n">with_crc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_pid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">:&#39;</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">crc_function</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;CRC</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crc</span><span class="p">)</span><span class="si">}</span><span class="s2">:&quot;</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">b</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crc</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crc</span><span class="p">)]</span>
+            <span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="TokenPacket">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.TokenPacket">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TokenPacket</span><span class="p">(</span><span class="n">USBPacket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a USB Packet of type *token*.</span>
+<span class="sd">    Please see 8.4.1 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param pid: the PID of the packet</span>
+<span class="sd">    :type pid: PidField</span>
+<span class="sd">    :param addr: the address in the token packet</span>
+<span class="sd">    :type addr: AddressField</span>
+<span class="sd">    :param endpoint: the endpoint of the token packet</span>
+<span class="sd">    :type endpoint: EndpointField</span>
+
+<span class="sd">    Example (create a *TOKEN_IN* USB packet):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import TokenPacket</span>
+<span class="sd">        from usbsimulator.protocol.field import Pid, PidField, AddressField, EndpointField</span>
+
+<span class="sd">        pid = PidField(Pid.TOKEN_IN)</span>
+<span class="sd">        addr = AddressField(0x1ae)</span>
+<span class="sd">        ep = EndpointField(0b101)</span>
+
+<span class="sd">        tin_packet = TokenPacket(</span>
+<span class="sd">            pid=pid,</span>
+<span class="sd">            address=addr,</span>
+<span class="sd">            endpoint=ep</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pid</span><span class="p">:</span> <span class="n">PidField</span><span class="p">,</span>
+        <span class="n">address</span><span class="p">:</span> <span class="n">AddressField</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="n">EndpointField</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">TOKEN_IN</span> <span class="ow">or</span> \
+            <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">TOKEN_OUT</span> <span class="ow">or</span> \
+            <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">TOKEN_SETUP</span><span class="p">,</span> \
+            <span class="s2">&quot;Invalid PID type for token packet&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">],</span>
+            <span class="n">crc_function</span><span class="o">=</span><span class="n">usb_crc5</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="StartOfFramePacket">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.StartOfFramePacket">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StartOfFramePacket</span><span class="p">(</span><span class="n">USBPacket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a USB Packet of type StartOfFrame.</span>
+<span class="sd">    Please see 8.4.2 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param framenumber: The frame number of the packet</span>
+<span class="sd">    :type framenumber: FramenumberField</span>
+
+<span class="sd">    Example (create a *FrameNumber* USB packet):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import StartOfFramePacket</span>
+<span class="sd">        from usbsimulator.protocol.field import FrameNumberField</span>
+
+<span class="sd">        frame_nb = FramenumberField(0x0)</span>
+
+<span class="sd">        p = StartOfFramePacket(frame_nb)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">framenumber</span><span class="p">:</span> <span class="n">FramenumberField</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">pid</span><span class="o">=</span><span class="n">PidField</span><span class="p">(</span><span class="n">Pid</span><span class="o">.</span><span class="n">TOKEN_SOF</span><span class="p">),</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">framenumber</span><span class="p">],</span>
+            <span class="n">crc_function</span><span class="o">=</span><span class="n">usb_crc5</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DataPacket">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.DataPacket">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataPacket</span><span class="p">(</span><span class="n">USBPacket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a USB Packet of type Data.</span>
+<span class="sd">    Please see 8.4.1 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param pid: The pid of the datapacket</span>
+<span class="sd">    :type pid: PidField</span>
+<span class="sd">    :param data: The data in the datapacket</span>
+<span class="sd">    :type data: DataField</span>
+
+<span class="sd">    Example (create a DATA0 packet):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import DataPacket</span>
+<span class="sd">        from usbsimulator.protocol.field import Pid, PidField, DataField</span>
+
+<span class="sd">        pid = PidField(Pid.DATA_DATA0)</span>
+<span class="sd">        data = DataField(</span>
+<span class="sd">            b&#39;A very important data that I want to send on the USB bus&#39;</span>
+<span class="sd">        )</span>
+
+<span class="sd">        data_packet = DataPacket(</span>
+<span class="sd">            pid=pid,</span>
+<span class="sd">            data=data</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">:</span> <span class="n">PidField</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">DataField</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init constructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">DATA_DATA0</span> <span class="ow">or</span> <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">DATA_DATA1</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span>
+            <span class="n">crc_function</span><span class="o">=</span><span class="n">usb_crc16</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HandshakePacket">
+<a class="viewcode-back" href="../../../usbsimulator.protocol.packet.html#usbsimulator.protocol.packet.HandshakePacket">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HandshakePacket</span><span class="p">(</span><span class="n">USBPacket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class representing a handshake USB packet.</span>
+<span class="sd">    Please see 8.4.4 from `USB1.1 specification &lt;http://esd.cs.ucr.edu/webres/usb11.pdf&gt;`_.</span>
+
+<span class="sd">    :param pid: The pid of the handshake packet. Must be Pid.HANDSHAKE_ACK, Pid.HANDSHAKE_ACK</span>
+<span class="sd">        or Pid.HANDSHAKE_STALL.</span>
+<span class="sd">    :type pid: PidField</span>
+
+<span class="sd">    Example (create ACK and NACK packets):</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">        :linenos:</span>
+
+<span class="sd">        from usbsimulator.protocol.packet import HandshakePacket</span>
+<span class="sd">        from usbsimulator.protocol.field import Pid, PidField</span>
+
+<span class="sd">        # In case of an ACK</span>
+<span class="sd">        pid = PidField(Pid.HANDSHAKE_ACK)</span>
+<span class="sd">        ack_packet = HandshakePacket(pid)</span>
+<span class="sd">        </span>
+<span class="sd">        # In case of a NACK</span>
+<span class="sd">        pid = PidField(Pid.HANDSHAKE_NACK)</span>
+<span class="sd">        nack_packet = HandshakePacket(pid)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">:</span> <span class="n">PidField</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">HANDSHAKE_ACK</span> <span class="ow">or</span> \
+            <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">HANDSHAKE_ACK</span> <span class="ow">or</span> \
+            <span class="n">pid</span><span class="o">.</span><span class="n">val</span><span class="p">()</span> <span class="o">==</span> <span class="n">Pid</span><span class="o">.</span><span class="n">HANDSHAKE_STALL</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, acmo0.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
