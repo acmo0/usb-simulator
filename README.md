@@ -2,7 +2,7 @@
 
 <p align="center">
     <img src="docs/source/logo.svg">
-p>
+<p>
 
 Introduction
 ============
