@@ -1,4 +1,8 @@
+# USB Simulator
+
 ![Logo](docs/source/logo.svg)
+
+
 Introduction
 ============
 
