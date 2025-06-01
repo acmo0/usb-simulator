@@ -1,7 +1,8 @@
 # USB Simulator
 
-![Logo](docs/source/logo.svg)
-
+<p align="center">
+    <img src="docs/source/logo.svg">
+p>
 
 Introduction
 ============
